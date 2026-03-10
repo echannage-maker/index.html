@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Toko HP</title>
+
+<style>
+
+body{
+font-family:Arial;
+margin:0;
+
+background:
+linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),
+url("https://images.unsplash.com/photo-1511707171634-5f897ff02aa9");
+
+background-size:cover;
+background-position:center;
+
+color:white;
+text-align:center;
+}
+
+.container{
+max-width:500px;
+margin:auto;
+padding:40px;
+}
+
+.card{
+background:white;
+color:black;
+padding:25px;
+border-radius:15px;
+margin-top:20px;
+box-shadow:0 15px 30px rgba(0,0,0,0.3);
+}
+
+button{
+padding:12px 20px;
+border:none;
+border-radius:8px;
+background:#3498db;
+color:white;
+font-size:16px;
+cursor:pointer;
+margin-top:12px;
+}
+
+button:hover{
+background:#2980b9;
+}
+
+select,input{
+width:90%;
+padding:10px;
+margin:8px;
+border-radius:6px;
+border:1px solid #ccc;
+}
+
+.hidden{
+display:none;
+}
+
+.receipt{
+text-align:left;
+font-family:monospace;
+line-height:1.6;
+}
+
+@media print{
+
+body *{
+visibility:hidden;
+}
+
+#receipt, #receipt *{
+visibility:visible;
+}
+
+#receipt{
+position:absolute;
+left:0;
+top:0;
+width:100%;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>📱 Toko HP Online</h1>
+<p>Pilih HP yang ingin dibeli</p>
+
+<div class="card" id="menu">
+
+<h3>Pilih HP</h3>
+
+<select id="hp">
+<option value="2500000">Samsung Galaxy A14 - 2.500.000</option>
+<option value="3000000">Xiaomi Redmi Note 12 - 3.000.000</option>
+<option value="3500000">Realme Narzo 60 - 3.500.000</option>
+<option value="4500000">Vivo Y36 - 4.500.000</option>
+</select>
+
+<h3>Aksesoris</h3>
+
+<select id="aksesoris">
+<option value="0">Tanpa Aksesoris</option>
+<option value="50000">Softcase (+50.000)</option>
+<option value="80000">Tempered Glass (+80.000)</option>
+<option value="120000">Charger Fast (+120.000)</option>
+</select>
+
+<br>
+
+<input type="number" id="jumlah" value="1" min="1">
+
+<br>
+
+<select id="metode">
+<option>DANA</option>
+<option>Transfer Bank</option>
+<option>Cash</option>
+</select>
+
+<br>
+
+<button onclick="bayar()">Beli Sekarang</button>
+
+</div>
+
+<div class="card hidden" id="receipt">
+
+<h3>STRUK PEMBELIAN</h3>
+
+<div class="receipt" id="isiStruk"></div>
+
+<br>
+
+<button onclick="printStruk()">Cetak Struk</button>
+<br>
+<button onclick="location.reload()">Beli Lagi</button>
+
+</div>
+
+</div>
+
+<script>
+
+function bayar(){
+
+var hp=document.getElementById("hp")
+var namaHP=hp.options[hp.selectedIndex].text
+var harga=hp.value
+
+var aksesoris=document.getElementById("aksesoris")
+var namaAksesoris=aksesoris.options[aksesoris.selectedIndex].text
+var hargaAksesoris=aksesoris.value
+
+var jumlah=document.getElementById("jumlah").value
+var metode=document.getElementById("metode").value
+
+var total=(parseInt(harga)+parseInt(hargaAksesoris))*jumlah
+
+var kode="INV"+Math.floor(Math.random()*100000)
+
+var waktu=new Date().toLocaleString()
+
+var struk=`
+
+====================
+TOKO HP ONLINE
+====================
+
+HP : ${namaHP}
+
+Aksesoris : ${namaAksesoris}
+
+Jumlah : ${jumlah}
+
+Metode : ${metode}
+
+--------------------
+
+TOTAL : Rp ${total}
+
+--------------------
+
+Kode : ${kode}
+
+Waktu : ${waktu}
+
+Status : LUNAS
+
+====================
+
+Terima Kasih 📱
+
+`
+
+document.getElementById("menu").style.display="none"
+
+document.getElementById("receipt").classList.remove("hidden")
+
+document.getElementById("isiStruk").innerText=struk
+
+}
+
+function printStruk(){
+
+window.print()
+
+}
+
+</script>
+
+</body>
+</html>
